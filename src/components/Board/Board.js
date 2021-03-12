@@ -1,14 +1,8 @@
-import React from "react";
+import React, {useRef} from "react";
 import "./Board.css";
 import Square from "../Square/Square";
 import Piece from "../Piece/Piece";
 import { useChessState } from "../ChessContext/useChessState";
-
-const getPosition = (index) => {
-  const x = index % 8;
-  const y = Math.floor(index / 8);
-  return { x: x, y: y };
-};
 
 const getColor = (x, y) => {
   if (y % 2 === 0) {
@@ -19,41 +13,38 @@ const getColor = (x, y) => {
 
 const Board = () => {
   const { board, movePiece } = useChessState();
+  const boardRef = useRef()
 
-  let divBoard = null;
-
-  const onDragStop = (e, piecePosition) => {
-    const boardMetrics = divBoard.getClientRects()[0];
+  const onDragStop = (e, position) => {
+    const boardMetrics = boardRef.current.getClientRects()[0];
     const posOnBoardX = e.x - boardMetrics.x;
     const posOnBoardY = e.y - boardMetrics.y;
     const widthSquare = boardMetrics.width / 8;
     const indexX = Math.floor(posOnBoardX / widthSquare);
     const indexY = Math.floor(posOnBoardY / widthSquare);
-    const position = indexY * 8 + indexX;
-    movePiece(piecePosition, position);
+    setTimeout(() => movePiece(position, {x: indexX, y: indexY}));
   };
   return (
     <div
       className="Board"
-      ref={(el) => {
-        divBoard = el;
-      }}
+      ref={boardRef}
     >
-      {board.map((piece, index) => {
-        const { x, y } = getPosition(index);
-
-        return (
-          <Square
-            key={index}
-            color={getColor(x, y)}
-            numberTag={x === 0 ? 8 - y : undefined}
-            letterTag={y === 7 ? String.fromCharCode(97 + x) : undefined}
-          >
-            {piece && (
-              <Piece position={index} piece={piece} onDragStop={onDragStop} />
-            )}
-          </Square>
-        );
+      {board.map((pieces, row) => {
+        return pieces.map((piece, column) => {
+          return (
+            <Square
+              key={row * 8 + column}
+              color={getColor(row, column)}
+              numberTag={column === 0 ? 8 - row : undefined}
+              letterTag={row === 7 ? String.fromCharCode(97 + column) : undefined}
+            >
+              {piece && (
+                <Piece position={{x: column, y: row}} piece={piece} onDragStop={onDragStop} />
+              )}
+            </Square>
+          );
+        })
+        //const { x, y } = getPosition(index);
       })}
     </div>
   );

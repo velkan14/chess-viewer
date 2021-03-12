@@ -5,10 +5,12 @@
   height: 100%;
   color: white;
   cursor: grab;
+  -webkit-text-stroke: 0.03rem black;
 }
 
 .pieceblack {
-  color: black;
+  color: #2e2e2e;
+  -webkit-text-stroke: 0.03rem white;
 }
 
 [draggable="true"] {

@@ -16,6 +16,7 @@ const defaultBoard = [
 export const ChessProvider = (props) => {
   const [state, setState] = useState({
     board: defaultBoard,
+    moves: 0
   });
 
   return (

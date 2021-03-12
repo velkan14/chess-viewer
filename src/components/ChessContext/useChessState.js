@@ -4,23 +4,22 @@ import { ChessContext } from "./ChessContext";
 const useChessState = () => {
   const [state, setState] = useContext(ChessContext);
 
-  //const { board } = state;
-
-  const board = state.board.flat();
+  const { board, moves } = state;
 
   const isPositionEmpty = (position) => {
-    return board[position] === null;
+    return board[position.y][position.x] === null;
   };
 
   const isPositionValid = (position) => {
-    return position < board.length && position >= 0;
+    return  position.x < 8 && position.x >= 0 &&
+    position.y < 8 && position.y >= 0
   };
 
   const canMove = (oldPosition, newPosition) => {
     if (!isPositionValid(oldPosition) || isPositionEmpty(oldPosition))
       return false;
 
-    const piece = board[oldPosition];
+    const piece = board[oldPosition.y][oldPosition.x];
 
     //verify piece movement?
     return (
@@ -31,7 +30,7 @@ const useChessState = () => {
 
   const hasEnemy = (pieceOne, position) => {
     if (isPositionEmpty(position)) return false;
-    const pieceTwo = board[position];
+    const pieceTwo = board[position.y][position.x];
 
     return getPieceColor(pieceOne) !== getPieceColor(pieceTwo);
   };
@@ -44,7 +43,7 @@ const useChessState = () => {
   const addPiece = (piece, position) => {
     if (isPositionEmpty(position) && isPositionValid(position)) {
       const newBoard = board.slice();
-      newBoard[position] = piece;
+      newBoard[position.y][position.x] = piece;
       setState({ ...state, board: newBoard });
     }
   };
@@ -52,9 +51,9 @@ const useChessState = () => {
   const movePiece = (oldPosition, newPosition) => {
     if (canMove(oldPosition, newPosition)) {
       const newBoard = board.slice();
-      newBoard[newPosition] = newBoard[oldPosition];
-      newBoard[oldPosition] = null;
-      setState({ ...state, board: newBoard });
+      newBoard[newPosition.y][newPosition.x] = newBoard[oldPosition.y][oldPosition.x];
+      newBoard[oldPosition.y][oldPosition.x] = null;
+      setState({ ...state, board: newBoard, moves: moves +1 });
     }
   };
 
@@ -67,19 +66,21 @@ const useChessState = () => {
     if (isValidFen(fen)) {
       const groups = fen.split(" ");
       const newBoard = groups[0].split("/").reduce((result, current) => {
+        let row = []
         for (let i = 0; i < current.length; i++) {
           const number = parseInt(current[i]);
           if (isNaN(number)) {
-            result.push(current[i]);
+            row.push(current[i]);
           } else {
             for (let j = 0; j < number; j++) {
-              result.push(null);
+              row.push(null);
             }
           }
         }
-        return result;
+        return [...result, row];
       }, []);
-      setState({ ...state, board: newBoard });
+      setState({ ...state, board: newBoard, moves: 
+        parseInt(groups[5]) });
     }
   };
 
@@ -103,13 +104,13 @@ const useChessState = () => {
   };
 
   const getFen = () => {
-    const parcialFen = state.board.reduce((fen, row, index, board) => {
+    const parcialFen = board.reduce((fen, row, index, board) => {
       fen = fen + getFenFromRow(row);
       if (index === board.length - 1) return fen;
       return fen + "/";
     }, "");
 
-    return parcialFen + " w KQkq - 0 1";
+    return parcialFen + ` w KQkq - 0 ${moves}`;
   };
 
   const getMoves = () => {};

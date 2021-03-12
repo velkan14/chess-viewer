@@ -7,7 +7,6 @@ const Square = (props) => {
   return (
     <div
       className={classNames("Square", { black: color === "black" })}
-      {...props}
     >
       {numberTag && <span className="numberTag">{numberTag}</span>}
       {letterTag && <span className="letterTag">{letterTag}</span>}
