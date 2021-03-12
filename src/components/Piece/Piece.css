@@ -1,0 +1,21 @@
+.Piece {
+  font-size: 8vh;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  color: white;
+  cursor: grab;
+}
+
+.pieceblack {
+  color: black;
+}
+
+[draggable="true"] {
+  cursor: move;
+}
+
+.dragging {
+  cursor: grabbing;
+  z-index: 2;
+}

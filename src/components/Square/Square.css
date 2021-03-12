@@ -1,0 +1,27 @@
+.Square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eeeed2;
+  color: #769656;
+  position: relative;
+}
+
+.black {
+  background-color: #769656;
+  color: #eeeed2;
+}
+
+.numberTag {
+  position: absolute;
+  top: 0.1rem;
+  left: 0.1rem;
+  font-size: 1rem;
+}
+
+.letterTag {
+  position: absolute;
+  bottom: 0.1rem;
+  right: 0.1rem;
+  font-size: 1rem;
+}

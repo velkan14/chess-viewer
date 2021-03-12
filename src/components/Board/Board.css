@@ -1,0 +1,7 @@
+.Board {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(12.5%, 2fr));
+  grid-template-rows: repeat(8, minmax(12.5%, 2fr));
+  width: 80vh;
+  height: 80vh;
+}
