@@ -12,16 +12,14 @@ const getColor = (x, y) => {
 };
 
 const Board = () => {
-  const { board, movePiece, getMoves } = useChessState();
+  const { board, moves, movePiece } = useChessState();
   const boardRef = useRef();
 
   const [selectedPiece, setSelectedPiece] = useState(null);
 
-  const moves = getMoves();
   let selectedMoves = undefined;
 
   if (selectedPiece) {
-    console.log(moves);
     selectedMoves = moves.find((element) => {
       return (
         element.piece.x === selectedPiece.x &&

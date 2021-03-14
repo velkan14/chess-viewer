@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useChessState } from "../ChessContext/useChessState";
+import "./FenForm.css";
 
 const FenForm = () => {
   const { load, getFen } = useChessState();
@@ -14,8 +15,8 @@ const FenForm = () => {
   };
 
   return (
-    <div>
-      <form className="FenForm" onSubmit={onLoad}>
+    <div className="FenForm">
+      <form onSubmit={onLoad}>
         <input
           type="text"
           placeholder="Fen..."
@@ -24,7 +25,7 @@ const FenForm = () => {
         />
         <button>Load Fen</button>
       </form>
-      <p>{getFen()}</p>
+      <small>{getFen()}</small>
     </div>
   );
 };
