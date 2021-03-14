@@ -3,20 +3,21 @@ import React, { useState, createContext } from "react";
 export const ChessContext = createContext();
 
 const defaultBoard = [
-  ["r", "n", "b", "q", "k", "b", "n", "r"],
-  ["p", "p", "p", "p", "p", "p", "p", "p"],
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
-  ["P", "P", "P", "P", "P", "P", "P", "P"],
-  ["R", "N", "B", "Q", "K", "B", "N", "R"],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
 ];
 
 export const ChessProvider = (props) => {
   const [state, setState] = useState({
     board: defaultBoard,
-    moves: 0
+    moves: [],
+    numberMoves: 0,
   });
 
   return (

@@ -4,12 +4,6 @@ import "./Piece.css";
 import Draggable from "react-draggable";
 
 const piecesMapping = {
-  P: { char: "♟", color: "white" },
-  N: { char: "♞", color: "white" },
-  B: { char: "♝", color: "white" },
-  R: { char: "♜", color: "white" },
-  Q: { char: "♚", color: "white" },
-  K: { char: "♛", color: "white" },
   p: { char: "♟", color: "black" },
   n: { char: "♞", color: "black" },
   b: { char: "♝", color: "black" },
@@ -18,19 +12,19 @@ const piecesMapping = {
   k: { char: "♛", color: "black" },
 };
 
-
 const Piece = (props) => {
-  const { piece, position, onDragStop } = props;
+  const { piece, position, onDragStop, onDragStart } = props;
 
   const [dragging, setDragging] = useState(false);
   const nodeRef = useRef(null);
 
   return (
     <Draggable
-    nodeRef={nodeRef}
+      nodeRef={nodeRef}
       position={{ x: 0, y: 0 }}
       onStart={(a) => {
         setDragging(true);
+        onDragStart(position);
       }}
       onStop={(e) => {
         setDragging(false);
@@ -38,13 +32,13 @@ const Piece = (props) => {
       }}
     >
       <div
-      ref={nodeRef}
+        ref={nodeRef}
         className={classNames("Piece", {
-          pieceblack: piecesMapping[piece].color === "black",
+          pieceblack: piece.color === "black",
           dragging: dragging,
         })}
       >
-        {piecesMapping[piece].char}
+        {piecesMapping[piece.name].char}
       </div>
     </Draggable>
   );

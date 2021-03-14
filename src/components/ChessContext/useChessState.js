@@ -1,43 +1,46 @@
 import { useContext } from "react";
 import { ChessContext } from "./ChessContext";
+import { fenToBoard, boardToFen } from "../../utils/Fen";
 
 const useChessState = () => {
   const [state, setState] = useContext(ChessContext);
 
-  const { board, moves } = state;
+  const { board, numberMoves } = state;
 
   const isPositionEmpty = (position) => {
     return board[position.y][position.x] === null;
   };
 
   const isPositionValid = (position) => {
-    return  position.x < 8 && position.x >= 0 &&
-    position.y < 8 && position.y >= 0
+    return (
+      position.x < 8 && position.x >= 0 && position.y < 8 && position.y >= 0
+    );
   };
 
   const canMove = (oldPosition, newPosition) => {
     if (!isPositionValid(oldPosition) || isPositionEmpty(oldPosition))
       return false;
 
-    const piece = board[oldPosition.y][oldPosition.x];
+    const moves = getMoves();
 
-    //verify piece movement?
-    return (
-      isPositionValid(newPosition) &&
-      (isPositionEmpty(newPosition) || hasEnemy(piece, newPosition))
-    );
+    return moves.some((current) => {
+      if (
+        current.piece.x === oldPosition.x &&
+        current.piece.y === oldPosition.y
+      ) {
+        return current.moves.some(
+          (move) => move.x === newPosition.x && move.y === newPosition.y
+        );
+      }
+      return false;
+    });
   };
 
   const hasEnemy = (pieceOne, position) => {
     if (isPositionEmpty(position)) return false;
     const pieceTwo = board[position.y][position.x];
 
-    return getPieceColor(pieceOne) !== getPieceColor(pieceTwo);
-  };
-
-  const getPieceColor = (piece) => {
-    if (piece === piece.toLowerCase()) return "white";
-    else return "black";
+    return pieceOne.color !== pieceTwo.color;
   };
 
   const addPiece = (piece, position) => {
@@ -51,69 +54,88 @@ const useChessState = () => {
   const movePiece = (oldPosition, newPosition) => {
     if (canMove(oldPosition, newPosition)) {
       const newBoard = board.slice();
-      newBoard[newPosition.y][newPosition.x] = newBoard[oldPosition.y][oldPosition.x];
+      newBoard[newPosition.y][newPosition.x] =
+        newBoard[oldPosition.y][oldPosition.x];
       newBoard[oldPosition.y][oldPosition.x] = null;
-      setState({ ...state, board: newBoard, moves: moves +1 });
+      setState({ ...state, board: newBoard, numberMoves: numberMoves + 1 });
     }
-  };
-
-  const isValidFen = (fen) => {
-    const fenPattern = /^([rnbqkpRNBQKP1-8]{1,8}\/){7}[rnbqkpRNBQKP1-8]{1,8} (w|b) ([QqKk]{1,4}|-) ([a-h36]{2}|-) [0-9]+ [0-9]+$/;
-    return fenPattern.test(fen);
   };
 
   const load = (fen) => {
-    if (isValidFen(fen)) {
-      const groups = fen.split(" ");
-      const newBoard = groups[0].split("/").reduce((result, current) => {
-        let row = []
-        for (let i = 0; i < current.length; i++) {
-          const number = parseInt(current[i]);
-          if (isNaN(number)) {
-            row.push(current[i]);
-          } else {
-            for (let j = 0; j < number; j++) {
-              row.push(null);
-            }
-          }
-        }
-        return [...result, row];
-      }, []);
-      setState({ ...state, board: newBoard, moves: 
-        parseInt(groups[5]) });
+    const result = fenToBoard(fen);
+    if (!result.error) {
+      const { board, numberMoves } = result;
+      setState({ ...state, board: board, numberMoves: numberMoves });
     }
   };
 
-  const getFenFromRow = (row) => {
-    let accumulator = 0;
-    return row.reduce((rowFen, current, index, row) => {
-      if (current === null) {
-        accumulator = accumulator + 1;
-      } else {
-        if (accumulator !== 0) {
-          rowFen = rowFen + String(accumulator);
-          accumulator = 0;
-        }
-        rowFen = rowFen + current;
-      }
-
-      if (index === row.length - 1 && accumulator !== 0)
-        return rowFen + String(accumulator);
-      return rowFen;
-    }, "");
-  };
-
   const getFen = () => {
-    const parcialFen = board.reduce((fen, row, index, board) => {
-      fen = fen + getFenFromRow(row);
-      if (index === board.length - 1) return fen;
-      return fen + "/";
-    }, "");
-
-    return parcialFen + ` w KQkq - 0 ${moves}`;
+    return boardToFen(board, "w", numberMoves);
   };
 
-  const getMoves = () => {};
+  const getMoves = () => {
+    const moves = [];
+    const noMoves = (board) => {
+      return [];
+    };
+
+    const piecesMovesMapping = {
+      r: { getMoves: noMoves },
+      n: { getMoves: noMoves },
+      b: { getMoves: noMoves },
+      q: { getMoves: noMoves },
+      k: { getMoves: noMoves },
+      p: {
+        getMoves: (board, piece, position) => {
+          const { x, y } = position;
+          const possibleMoves = [];
+
+          const diff = {
+            black: { dir: +1, base: 1 },
+            white: { dir: -1, base: 6 },
+          };
+
+          let pos = { x: x - 1, y: y + diff[piece.color].dir };
+          if (isPositionValid(pos) && hasEnemy(piece, pos)) {
+            possibleMoves.push(pos);
+          }
+
+          pos = { x: x + 1, y: y + diff[piece.color].dir };
+          if (isPositionValid(pos) && hasEnemy(piece, pos)) {
+            possibleMoves.push(pos);
+          }
+
+          pos = { x: x, y: y + diff[piece.color].dir };
+          if (isPositionValid(pos) && isPositionEmpty(pos)) {
+            possibleMoves.push(pos);
+            if (y === diff[piece.color].base)
+              possibleMoves.push({ x: x, y: y + diff[piece.color].dir * 2 });
+          }
+
+          return possibleMoves;
+        },
+      },
+    };
+
+    board.forEach((pieces, row) => {
+      pieces.forEach((piece, column) => {
+        if (piece !== null) {
+          let pieceMoves = piecesMovesMapping[piece.name].getMoves(
+            board,
+            piece,
+            { x: column, y: row }
+          );
+          if (pieceMoves.length > 0) {
+            moves.push({
+              piece: { x: column, y: row },
+              moves: pieceMoves,
+            });
+          }
+        }
+      });
+    });
+    return moves;
+  };
 
   return {
     board,
