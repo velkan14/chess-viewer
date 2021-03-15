@@ -11,8 +11,16 @@ const Square = (props) => {
         target: target,
       })}
     >
-      {numberTag && <span className="numberTag">{numberTag}</span>}
-      {letterTag && <span className="letterTag">{letterTag}</span>}
+      {numberTag && (
+        <span className="numberTag" data-testid="numberTag">
+          {numberTag}
+        </span>
+      )}
+      {letterTag && (
+        <span className="letterTag" data-testid="letterTag">
+          {letterTag}
+        </span>
+      )}
       {props.children}
     </div>
   );

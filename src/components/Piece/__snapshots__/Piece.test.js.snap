@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test snapshots 1`] = `
+<Draggable
+  allowAnyClick={false}
+  axis="both"
+  bounds={false}
+  cancel={null}
+  defaultClassName="react-draggable"
+  defaultClassNameDragged="react-draggable-dragged"
+  defaultClassNameDragging="react-draggable-dragging"
+  defaultPosition={
+    Object {
+      "x": 0,
+      "y": 0,
+    }
+  }
+  disabled={false}
+  enableUserSelectHack={true}
+  grid={null}
+  handle={null}
+  nodeRef={
+    Object {
+      "current": null,
+    }
+  }
+  offsetParent={null}
+  onDrag={[Function]}
+  onMouseDown={[Function]}
+  onStart={[Function]}
+  onStop={[Function]}
+  position={
+    Object {
+      "x": 0,
+      "y": 0,
+    }
+  }
+  scale={1}
+  transform={null}
+>
+  <div
+    className="Piece pieceblack"
+  >
+    ♟
+  </div>
+</Draggable>
+`;
+
+exports[`Test snapshots 2`] = `
+<Draggable
+  allowAnyClick={false}
+  axis="both"
+  bounds={false}
+  cancel={null}
+  defaultClassName="react-draggable"
+  defaultClassNameDragged="react-draggable-dragged"
+  defaultClassNameDragging="react-draggable-dragging"
+  defaultPosition={
+    Object {
+      "x": 0,
+      "y": 0,
+    }
+  }
+  disabled={false}
+  enableUserSelectHack={true}
+  grid={null}
+  handle={null}
+  nodeRef={
+    Object {
+      "current": null,
+    }
+  }
+  offsetParent={null}
+  onDrag={[Function]}
+  onMouseDown={[Function]}
+  onStart={[Function]}
+  onStop={[Function]}
+  position={
+    Object {
+      "x": 0,
+      "y": 0,
+    }
+  }
+  scale={1}
+  transform={null}
+>
+  <div
+    className="Piece"
+  >
+    ♛
+  </div>
+</Draggable>
+`;

@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test snapshots 1`] = `
+<div
+  className="Square"
+>
+  <span
+    className="numberTag"
+    data-testid="numberTag"
+  >
+    1
+  </span>
+  <span
+    className="letterTag"
+    data-testid="letterTag"
+  >
+    a
+  </span>
+</div>
+`;
+
+exports[`Test snapshots 2`] = `
+<div
+  className="Square black"
+>
+  <span
+    className="numberTag"
+    data-testid="numberTag"
+  >
+    1
+  </span>
+  <span
+    className="letterTag"
+    data-testid="letterTag"
+  >
+    a
+  </span>
+</div>
+`;
+
+exports[`Test snapshots 3`] = `
+<div
+  className="Square"
+>
+  <span
+    className="numberTag"
+    data-testid="numberTag"
+  >
+    1
+  </span>
+</div>
+`;
+
+exports[`Test snapshots 4`] = `
+<div
+  className="Square"
+>
+  <span
+    className="letterTag"
+    data-testid="letterTag"
+  >
+    a
+  </span>
+</div>
+`;
+
+exports[`Test snapshots 5`] = `
+<div
+  className="Square"
+/>
+`;
+
+exports[`Test snapshots 6`] = `
+<div
+  className="Square target"
+>
+  <span
+    className="numberTag"
+    data-testid="numberTag"
+  >
+    1
+  </span>
+  <span
+    className="letterTag"
+    data-testid="letterTag"
+  >
+    a
+  </span>
+</div>
+`;
