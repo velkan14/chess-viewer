@@ -14,7 +14,6 @@ const RandomButton = () => {
     }
   };
 
-  console.log("RandomButton");
   return (
     <div className="RandomButton">
       <button onClick={onButtonClick} disabled={emptyPositions.length === 0}>
