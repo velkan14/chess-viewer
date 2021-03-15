@@ -44,8 +44,9 @@ const getStateFromRow = (row) => {
       }
       if (current.color === "white") {
         state = state + current.name.toUpperCase();
+      } else {
+        state = state + current.name;
       }
-      state = state + current.name;
     }
 
     if (index === row.length - 1 && accumulator !== 0)

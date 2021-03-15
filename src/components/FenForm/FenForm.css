@@ -1,20 +1,22 @@
-.FenForm input {
-    padding: 0.25em 0.5em;
-    background-color: #fff;
-    border: 2px solid white;
-    border-radius: 4px;
-  }
-
-.FenForm button {
-    font-family: inherit;
-    padding: 0.25em 0.5em;
-    margin: 10px;
-    background-color: #fff;
-    border: 2px solid white;
-    border-radius: 4px;
+.FenForm {
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  width: 50%;
 }
 
-.FenForm small {
-    font-size: 0.7rem;
-    padding: 0.25em 0.5em;
+.FenForm input {
+  padding: 0.25em 0.5em;
+  width: 70%;
+  text-align: center;
+  background-color: #fff;
+  border: 2px solid white;
+  border-radius: 4px;
+}
+
+.FenForm p {
+  font-size: 0.7rem;
+  padding: 0.5rem 0.5rem;
+  border: 1px solid black;
+  overflow-x: scroll;
+  white-space: nowrap;
 }

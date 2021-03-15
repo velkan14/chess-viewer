@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import "./Board.css";
 import Square from "../Square/Square";
 import Piece from "../Piece/Piece";
-import { useChessState } from "../ChessContext/useChessState";
+import { useChessState } from "../../hooks/useChessState";
 
 const getColor = (x, y) => {
   if (y % 2 === 0) {

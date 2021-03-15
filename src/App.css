@@ -1,9 +1,9 @@
 .App {
   text-align: center;
+  background-color: #282c34;
 }
 
-.App-header {
-  background-color: #282c34;
+.App main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,4 +11,20 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+button {
+  padding: 0.25em 0.5em;
+  margin: 0.25rem;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: orange;
+}
+
+button:focus {
+  background-color: rgb(134, 87, 0);
 }

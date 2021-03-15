@@ -1,5 +1,6 @@
 import React from "react";
-import { useChessState } from "../ChessContext/useChessState";
+import { useChessState } from "../../hooks/useChessState";
+import "./RandomButton.css";
 
 const RandomButton = () => {
   const { addPiece, getEmptyPositions } = useChessState();

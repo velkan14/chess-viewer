@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useChessState } from "../ChessContext/useChessState";
+import { useChessState } from "../../hooks/useChessState";
 import "./FenForm.css";
 
 const FenForm = () => {
   const { load, getFen } = useChessState();
 
   const [input, setInput] = useState(
-    "8/5k2/3p4/1p1Pp2p/pP2Pp1P/P4P1K/8/8 b - - 99 50"
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
   );
 
   const onLoad = (e) => {
@@ -25,7 +25,7 @@ const FenForm = () => {
         />
         <button>Load Fen</button>
       </form>
-      <small>{getFen()}</small>
+      <p>{getFen()}</p>
     </div>
   );
 };

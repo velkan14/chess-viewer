@@ -7,13 +7,13 @@ import { ChessProvider } from "./components/ChessContext/ChessContext";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <main className="App-main">
         <ChessProvider>
           <FenForm />
-          <Board />
           <RandomButton />
+          <Board />
         </ChessProvider>
-      </header>
+      </main>
     </div>
   );
 }

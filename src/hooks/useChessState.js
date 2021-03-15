@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { ChessContext } from "./ChessContext";
-import { fenToBoard, boardToFen } from "../../utils/Fen";
+import { ChessContext } from "../components/ChessContext/ChessContext";
+import { fenToBoard, boardToFen } from "../utils/Fen";
 import {
   generateMoves,
   isPositionEmpty,
   isPositionValid,
-} from "../../utils/Chess";
+} from "../utils/Chess";
 
 const useChessState = () => {
   const [state, setState] = useContext(ChessContext);
