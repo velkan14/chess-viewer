@@ -1,70 +1,58 @@
 import { useContext } from "react";
 import { ChessContext } from "../components/ChessContext/ChessContext";
-import { fenToBoard, boardToFen } from "../utils/Fen";
-import {
-  generateMoves,
-  isPositionEmpty,
-  isPositionValid,
-} from "../utils/Chess";
 
 const useChessState = () => {
   const [state, setState] = useContext(ChessContext);
 
-  const { board, numberMoves, moves } = state;
+  const { chess, board } = state;
+
+  const getAlphaNumPosition = (position) => {
+    return String.fromCharCode(position.x + 97) + String(8 - position.y);
+  };
+
+  const getPosition = (alphaNum) => {
+    const finalPosPattern = /[abcdefgh][12345678]/;
+    const pos = alphaNum.match(finalPosPattern)[0];
+
+    return {
+      x: pos.charCodeAt(0) - 97,
+      y: 8 - parseInt(pos[1]),
+    };
+  };
 
   const load = (fen) => {
-    const result = fenToBoard(fen);
-    if (!result.error) {
-      const { board, numberMoves } = result;
-      setState({
-        ...state,
-        board: board,
-        numberMoves: numberMoves,
-        moves: generateMoves(board),
-      });
+    if (chess.load(fen)) {
+      setState({ ...state, board: chess.board() });
     }
   };
 
   const getFen = () => {
-    return boardToFen(board, "w", numberMoves);
+    return chess.fen();
   };
 
-  const canMove = (oldPosition, newPosition) => {
-    if (!isPositionValid(oldPosition) || isPositionEmpty(board, oldPosition))
-      return false;
+  const getMoves = (position) => {
+    const alphanumericPos = getAlphaNumPosition(position);
 
-    return moves.some((current) => {
-      if (
-        current.piece.x === oldPosition.x &&
-        current.piece.y === oldPosition.y
-      ) {
-        return current.moves.some(
-          (move) => move.x === newPosition.x && move.y === newPosition.y
-        );
-      }
-      return false;
+    return chess.moves({ square: alphanumericPos }).map((current) => {
+      return getPosition(current);
     });
   };
 
   const addPiece = (piece, position) => {
-    if (isPositionEmpty(board, position) && isPositionValid(position)) {
-      const newBoard = board.slice();
-      newBoard[position.y][position.x] = piece;
-      setState({ ...state, board: newBoard, moves: generateMoves(newBoard) });
-    }
+    chess.put(piece, getAlphaNumPosition(position));
+    setState({ ...state, board: chess.board() });
   };
 
   const movePiece = (oldPosition, newPosition) => {
-    if (canMove(oldPosition, newPosition)) {
-      const newBoard = board.slice();
-      newBoard[newPosition.y][newPosition.x] =
-        newBoard[oldPosition.y][oldPosition.x];
-      newBoard[oldPosition.y][oldPosition.x] = null;
+    const move = {
+      from: getAlphaNumPosition(oldPosition),
+      to: getAlphaNumPosition(newPosition),
+    };
+    if (chess.move(move)) {
       setState({
         ...state,
-        board: newBoard,
-        numberMoves: numberMoves + 1,
-        moves: generateMoves(newBoard),
+        board: chess.board(),
+        chess: chess,
       });
     }
   };
@@ -82,12 +70,13 @@ const useChessState = () => {
   };
 
   return {
+    chess,
     board,
-    moves,
-    addPiece,
-    movePiece,
     load,
     getFen,
+    getMoves,
+    addPiece,
+    movePiece,
     getEmptyPositions,
   };
 };

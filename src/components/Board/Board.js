@@ -12,7 +12,7 @@ const getColor = (x, y) => {
 };
 
 const Board = () => {
-  const { board, moves, movePiece } = useChessState();
+  const { board, getMoves, movePiece } = useChessState();
   const boardRef = useRef();
 
   const [selectedPiece, setSelectedPiece] = useState(null);
@@ -20,12 +20,7 @@ const Board = () => {
   let selectedMoves = undefined;
 
   if (selectedPiece) {
-    selectedMoves = moves.find((element) => {
-      return (
-        element.piece.x === selectedPiece.x &&
-        selectedPiece.y === element.piece.y
-      );
-    });
+    selectedMoves = getMoves(selectedPiece);
   }
 
   const onDragStart = (position) => {
@@ -54,9 +49,7 @@ const Board = () => {
               }
               target={
                 selectedMoves &&
-                selectedMoves.moves.some(
-                  (el) => el.x === column && el.y === row
-                )
+                selectedMoves.some((el) => el.x === column && el.y === row)
               }
             >
               {piece && (

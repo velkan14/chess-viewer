@@ -10,7 +10,7 @@ const RandomButton = () => {
   const onButtonClick = () => {
     if (emptyPositions.length > 0) {
       const index = Math.floor(Math.random() * emptyPositions.length);
-      addPiece({ name: "p", color: "white" }, emptyPositions[index]);
+      addPiece({ type: "p", color: "w" }, emptyPositions[index]);
     }
   };
 

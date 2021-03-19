@@ -4,12 +4,12 @@ import "./Piece.css";
 import Draggable from "react-draggable";
 
 const piecesMapping = {
-  p: { char: "♟", color: "black" },
-  n: { char: "♞", color: "black" },
-  b: { char: "♝", color: "black" },
-  r: { char: "♜", color: "black" },
-  q: { char: "♚", color: "black" },
-  k: { char: "♛", color: "black" },
+  p: { char: "♟" },
+  n: { char: "♞" },
+  b: { char: "♝" },
+  r: { char: "♜" },
+  q: { char: "♚" },
+  k: { char: "♛" },
 };
 
 const Piece = (props) => {
@@ -34,11 +34,11 @@ const Piece = (props) => {
       <div
         ref={nodeRef}
         className={classNames("Piece", {
-          pieceblack: piece.color === "black",
+          pieceblack: piece.color === "b",
           dragging: dragging,
         })}
       >
-        {piecesMapping[piece.name].char}
+        {piecesMapping[piece.type].char}
       </div>
     </Draggable>
   );

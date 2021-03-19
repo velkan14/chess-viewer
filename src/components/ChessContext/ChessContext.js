@@ -1,16 +1,14 @@
 import React, { useState, createContext } from "react";
-import { fenToBoard } from "../../utils/Fen";
-import { generateMoves } from "../../utils/Chess";
+import Chess from "chess.js";
 
 export const ChessContext = createContext();
 
-const { board, numberMoves } = fenToBoard("8/2p5/8/8/8/8/8/8 w KQkq - 0 1");
+const chess = Chess();
 
 export const ChessProvider = (props) => {
   const [state, setState] = useState({
-    board: board,
-    moves: generateMoves(board),
-    numberMoves: numberMoves,
+    chess: chess,
+    board: chess.board(),
   });
 
   return (

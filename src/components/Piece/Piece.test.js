@@ -6,7 +6,7 @@ import Piece from "./Piece";
 test("Test snapshots", () => {
   let wrapper = shallow(
     <Piece
-      piece={{ name: "p", color: "black" }}
+      piece={{ type: "p", color: "b" }}
       position={{ x: 0, y: 0 }}
       onDragStop={() => {}}
       onDragStart={() => {}}
@@ -16,7 +16,7 @@ test("Test snapshots", () => {
 
   wrapper = shallow(
     <Piece
-      piece={{ name: "k", color: "white" }}
+      piece={{ type: "k", color: "w" }}
       position={{ x: 0, y: 0 }}
       onDragStop={() => {}}
       onDragStart={() => {}}
