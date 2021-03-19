@@ -24,7 +24,7 @@ npm start
 
 ## Built With
 
-- [React.js](https://reactjs.org/)
+- [React.js](https://reactjs.org/), [chess.js](https://github.com/jhlywa/chess.js/)
 
 ## Authors
 

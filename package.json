@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "chess.js": "^0.11.0",
     "classnames": "^2.2.6",
+    "fork-me-on-github": "^1.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
